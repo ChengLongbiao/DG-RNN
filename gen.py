@@ -33,33 +33,52 @@ for i, file in enumerate(sorted(os.listdir(os.path.join(base_path, 'Noisy')))): 
 
     if i> 1:
         break
-    html_content += f'<div class="file-section"><h2>File {i}</h2>'
+    html_content += f'<div class="file-section"><h2>File {i+1}</h2>'
     noisy_path = os.path.join(base_path, "Noisy", file)
     target_path = os.path.join(base_path, "Target", file)
 
     html_content += f'''
-        <p>Noisy Audio:</p><audio controls src="{noisy_path}"></audio><p>Target Audio:</p><audio controls src="{target_path}"></audio>
+        <p>Noisy Audio:<audio controls src="{noisy_path}"></audio>      Target Audio: <audio controls src="{target_path}"></audio> </p>
     '''
 
+    # html_content += f'''<table class="center-table" border="0">
+    #     <tr>
+    #         <th>Model</th>
+    #         <th>25%</th>
+    #         <th>50%</th>
+    #         <th>70%</th>
+    #         <th>100%</th>
+    #     </tr>'''
+    
+    html_content += f'''<table class="center-table" border="0">
+        <tr>
+            <th>Model</th>
+            <th>hyperparameter 1</th>
+            <th>hyperparameter 2</th>
+            <th>hyperparameter 3</th>
+            <th>hyperparameter 4</th>
+        </tr>'''
 
+    for i, model in enumerate(models):
+        # html_content += f'<div class="model-section"><h2>{model} Model   </h2>'
+        html_content += f'''<tr>'''
+        html_content += f'''<td>model_{i+1}</td>'''
 
-    for model in models:
-        html_content += f'<div class="model-section"><h2>{model} Model   </h2>'
-        
-        for param in hyperparameters:
+        for i, param in enumerate(hyperparameters):
             # html_content += f'<div class="update ratio-section"><h3>{param}</h3>'
         
             enhanced_path = os.path.join(base_path, model, param, file)
-            if os.path.isfile(enhanced_path):
-                print(1)
             
             # Add HTML for the audio player for noisy, enhanced, and target
-            html_content += f'<p>{param}:</p><audio controls src="{enhanced_path}"></audio>'
-            
+            # html_content += f' <audio controls src="{enhanced_path}"></audio>'
+            html_content += f'''<td> <audio controls src="{enhanced_path}"></audio></td>'''
             # html_content += '</div>'  # Close hyperparameter section
         
-        html_content += '</div>'  # Close model section
-
+        # html_content += '</div>'  # Close model section
+        html_content += f'''</tr>''' 
+    
+    html_content +=  '</table>'
+    
     html_content += '</div>'  # Close file section
 
 # End of the HTML document
