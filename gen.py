@@ -5,7 +5,7 @@ base_path = "./DNS_audio"
 
 # Define the models and hyperparameters
 models = [ 'GRU', 'MPT', 'DPRNN']
-hyperparameters = ['25%', '50%', '75%', '100%']
+hyperparameters = ['25', '50', '75', '100']
 
 # Start of the HTML document
 html_content = '''
