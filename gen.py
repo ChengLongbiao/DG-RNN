@@ -38,29 +38,25 @@ for i, file in enumerate(sorted(os.listdir(os.path.join(base_path, 'Noisy')))): 
     target_path = os.path.join(base_path, "Target", file)
 
     html_content += f'''
-        <p>Noisy Audio:</p>
-        <audio controls src="{noisy_path}"></audio>
-        <p>Target Audio:</p>
-        <audio controls src="{target_path}"></audio>
+        <p>Noisy Audio:</p><audio controls src="{noisy_path}"></audio><p>Target Audio:</p><audio controls src="{target_path}"></audio>
     '''
 
 
 
     for model in models:
-        html_content += f'<div class="model-section"><h2>{model} Model</h2>'
+        html_content += f'<div class="model-section"><h2>{model} Model   </h2>'
         
         for param in hyperparameters:
-            html_content += f'<div class="update ratio-section"><h3>{param}</h3>'
+            # html_content += f'<div class="update ratio-section"><h3>{param}</h3>'
         
             enhanced_path = os.path.join(base_path, model, param, file)
+            if os.path.isfile(enhanced_path):
+                print(1)
             
             # Add HTML for the audio player for noisy, enhanced, and target
-            html_content += f'''
-                <p>Enhanced Audio ({model} {param}):</p>
-                <audio controls src="{enhanced_path}"></audio>
-            '''
+            html_content += f'<p>{param}:</p><audio controls src="{enhanced_path}"></audio>'
             
-            html_content += '</div>'  # Close hyperparameter section
+            # html_content += '</div>'  # Close hyperparameter section
         
         html_content += '</div>'  # Close model section
 
