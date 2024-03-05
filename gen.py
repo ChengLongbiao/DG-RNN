@@ -31,7 +31,7 @@ html_content = '''
 
 for i, file in enumerate(sorted(os.listdir(os.path.join(base_path, 'Noisy')))):  # Example to get file names
 
-    if i> 10:
+    if i> 1:
         break
     html_content += f'<div class="file-section"><h2>File {i}</h2>'
     noisy_path = os.path.join(base_path, "Noisy", file)
