@@ -1,7 +1,7 @@
 import os
 
 # Define the base path to your project directory
-base_path = "./"
+base_path = "./DNS_audio"
 
 # Define the models and hyperparameters
 models = [ 'GRU', 'MPT', 'DPRNN']
@@ -31,8 +31,8 @@ html_content = '''
 
 for i, file in enumerate(sorted(os.listdir(os.path.join(base_path, 'Noisy')))):  # Example to get file names
     html_content += f'<div class="file-section"><h2>File {i}</h2>'
-    noisy_path = os.path.join("Noisy", file)
-    target_path = os.path.join("Target", file)
+    noisy_path = os.path.join(base_path, "Noisy", file)
+    target_path = os.path.join(base_path, "Target", file)
 
     html_content += f'''
         <p>Noisy Audio:</p>
@@ -47,9 +47,9 @@ for i, file in enumerate(sorted(os.listdir(os.path.join(base_path, 'Noisy')))): 
         html_content += f'<div class="model-section"><h2>{model} Model</h2>'
         
         for param in hyperparameters:
-            html_content += f'<div class="hyperparameter-section"><h3>{param} Hyperparameter</h3>'
+            html_content += f'<div class="update ratio-section"><h3>{param}</h3>'
         
-            enhanced_path = os.path.join(model, param, file)
+            enhanced_path = os.path.join(base_path, model, param, file)
             
             # Add HTML for the audio player for noisy, enhanced, and target
             html_content += f'''
