@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <title>Speech Enhancement Demo</title> -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            /* Center-align all content */
+            overflow-x: hidden;
+            /* Prevent horizontal scrolling on the body */
+        }
+
+        h1 {
+            text-align: center;
+            /* Center-align the title */
+        }
+
+        .container {
+            margin: 0 auto;
+            /* Center-align the container */
+            width: 100%;
+            /* Set the width of the container */
+            max-width: 1600px;
+            /* Set a maximum width for larger screens */
+            text-align: center;
+            /* Reset text alignment within the container */
+        }
+
+        .file-section {
+            margin-top: 0px;
+            margin-bottom: 40px;
+            overflow-x: auto;
+            /* Enable horizontal scrolling if necessary */
+        }
+
+        table.center-table {
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            width: 100%;
+            /* Make table width adaptive */
+            border-collapse: collapse;
+            /* Ensure the borders of table cells are collapsed */
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: center;
+            /* Adjust text alignment as needed */
+            vertical-align: middle;
+            /* Center content vertically */
+            /* border: 1px solid #ddd;  */
+            box-sizing: border-box;
+        }
+
+        th {
+            background-color: hsla(0, 0%, 0%, 0%);
+            /* Optional: Add background color to header cells */
+        }
+
+        img {
+            /* max-width: 300px; Set a fixed width for all images */
+            width: 100%;
+            height: auto;
+            /* Set a fixed height for all images */
+            object-fit: cover;
+            /* Ensure the image covers the area, maintaining aspect ratio */
+        }
+
+        audio {
+            width: 100%;
+            /* Make audio controls responsive */
+            max-width: 300px;
+            /* Set a maximum width for audio controls */
+            height: 10px;
+            /* Adjust the height as needed */
+        }
+
+                /* Hide horizontal scrollbar */
+        ::-webkit-scrollbar {
+            width: 0px;
+            background: transparent; /* Hide the scrollbar */
+        }
+    </style>
+
+</head>
+
+<body>
+    <!-- <div class="container"> -->
+    <!-- <h1>Speech Enhancement Demo</h1> -->
+    <div class="file-section">
+        <h2>Test File 1, SNR: 0 dB, PESQ: 1.07</h2>
+        <table class='center-table' border="0">
+            <tr>
+                <th style="width: 210px;"></th>
+                <th>Noisy Input</th>
+                <th>Clean Target</th>
+                <th style="width: 210px;"></th>
+            </tr>
+            <tr>
+                <td style="width: 150px;"></td>
+                <td><img src=./DNS_audio/Noisy/clean_fileid_101.svg></img></td>
+                <td><img src=./DNS_audio/Target/clean_fileid_101.svg></img></td>
+                <td style="width: 150px;"></td>
+            </tr>
+            <tr>
+                <td style="width: 150px;"></td>
+                <td><audio controls src="./DNS_audio/Noisy/clean_fileid_101.wav"></audio></td>
+                <td><audio controls src="./DNS_audio/Target/clean_fileid_101.wav"></audio></td>
+                <td style="width: 150px;"></td>
+            </tr>
+        </table>
+        <table class="center-table" border="0">
+            <tr>
+                <th> </th>
+                <th>25%</th>
+                <th>50%</th>
+                <th>70%</th>
+                <th>100%</th>
+            </tr>
+            <tr>
+                <th>GRU</th>
+                <td> <img src=./DNS_audio/GRU/25/clean_fileid_101.svg></img></td>
+                <td> <img src=./DNS_audio/GRU/50/clean_fileid_101.svg></img></td>
+                <td> <img src=./DNS_audio/GRU/75/clean_fileid_101.svg></img></td>
+                <td> <img src=./DNS_audio/GRU/100/clean_fileid_101.svg></img></td>
+            </tr>
+            <tr>
+                <td> </td>
+                <td> <audio controls src="./DNS_audio/GRU/25/clean_fileid_101.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/GRU/50/clean_fileid_101.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/GRU/75/clean_fileid_101.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/GRU/100/clean_fileid_101.wav"></audio></td>
+            </tr>
+            <tr>
+                <th>MPT</th>
+                <td> <img src=./DNS_audio/MPT/25/clean_fileid_101.svg></img></td>
+                <td> <img src=./DNS_audio/MPT/50/clean_fileid_101.svg></img></td>
+                <td> <img src=./DNS_audio/MPT/75/clean_fileid_101.svg></img></td>
+                <td> <img src=./DNS_audio/MPT/100/clean_fileid_101.svg></img></td>
+            </tr>
+            <tr>
+                <td> </td>
+                <td> <audio controls src="./DNS_audio/MPT/25/clean_fileid_101.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/MPT/50/clean_fileid_101.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/MPT/75/clean_fileid_101.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/MPT/100/clean_fileid_101.wav"></audio></td>
+            </tr>
+            <tr>
+                <th>DPRNN</th>
+                <td> <img src=./DNS_audio/DPRNN/25/clean_fileid_101.svg></img></td>
+                <td> <img src=./DNS_audio/DPRNN/50/clean_fileid_101.svg></img></td>
+                <td> <img src=./DNS_audio/DPRNN/75/clean_fileid_101.svg></img></td>
+                <td> <img src=./DNS_audio/DPRNN/100/clean_fileid_101.svg></img></td>
+            </tr>
+            <tr>
+                <td> </td>
+                <td> <audio controls src="./DNS_audio/DPRNN/25/clean_fileid_101.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/DPRNN/50/clean_fileid_101.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/DPRNN/75/clean_fileid_101.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/DPRNN/100/clean_fileid_101.wav"></audio></td>
+            </tr>
+        </table>
+    </div>
+    <div class="file-section">
+        <h2>Test File 2, SNR: 0 dB, PESQ: 1.12</h2>
+        <table class='center-table' border="0">
+            <tr>
+                <th style="width: 210px;"></th>
+                <th>Noisy Input</th>
+                <th>Clean Target</th>
+                <th style="width: 210px;"></th>
+            </tr>
+            <tr>
+                <td style="width: 150px;"></td>
+                <td><img src=./DNS_audio/Noisy/clean_fileid_150.svg></img></td>
+
+                <td><img src=./DNS_audio/Target/clean_fileid_150.svg></img></td>
+                <td style="width: 150px;"></td>
+            </tr>
+            <tr>
+                <td style="width: 150px;"></td>
+                <td><audio controls src="./DNS_audio/Noisy/clean_fileid_150.wav"></audio></td>
+                <td><audio controls src="./DNS_audio/Target/clean_fileid_150.wav"></audio></td>
+                <td style="width: 150px;"></td>
+            </tr>
+        </table>
+        <table class="center-table" border="0">
+            <tr>
+                <th> </th>
+                <th>25%</th>
+                <th>50%</th>
+                <th>70%</th>
+                <th>100%</th>
+            </tr>
+            <tr>
+                <th>GRU</th>
+                <td> <img src=./DNS_audio/GRU/25/clean_fileid_150.svg></img></td>
+                <td> <img src=./DNS_audio/GRU/50/clean_fileid_150.svg></img></td>
+                <td> <img src=./DNS_audio/GRU/75/clean_fileid_150.svg></img></td>
+                <td> <img src=./DNS_audio/GRU/100/clean_fileid_150.svg></img></td>
+            </tr>
+            <tr>
+                <td> </td>
+                <td> <audio controls src="./DNS_audio/GRU/25/clean_fileid_150.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/GRU/50/clean_fileid_150.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/GRU/75/clean_fileid_150.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/GRU/100/clean_fileid_150.wav"></audio></td>
+            </tr>
+            <tr>
+                <th>MPT</th>
+                <td> <img src=./DNS_audio/MPT/25/clean_fileid_150.svg></img></td>
+                <td> <img src=./DNS_audio/MPT/50/clean_fileid_150.svg></img></td>
+                <td> <img src=./DNS_audio/MPT/75/clean_fileid_150.svg></img></td>
+                <td> <img src=./DNS_audio/MPT/100/clean_fileid_150.svg></img></td>
+            </tr>
+            <tr>
+                <td> </td>
+                <td> <audio controls src="./DNS_audio/MPT/25/clean_fileid_150.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/MPT/50/clean_fileid_150.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/MPT/75/clean_fileid_150.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/MPT/100/clean_fileid_150.wav"></audio></td>
+            </tr>
+            <tr>
+                <th>DPRNN</th>
+                <td> <img src=./DNS_audio/DPRNN/25/clean_fileid_150.svg></img></td>
+                <td> <img src=./DNS_audio/DPRNN/50/clean_fileid_150.svg></img></td>
+                <td> <img src=./DNS_audio/DPRNN/75/clean_fileid_150.svg></img></td>
+                <td> <img src=./DNS_audio/DPRNN/100/clean_fileid_150.svg></img></td>
+            </tr>
+            <tr>
+                <td> </td>
+                <td> <audio controls src="./DNS_audio/DPRNN/25/clean_fileid_150.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/DPRNN/50/clean_fileid_150.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/DPRNN/75/clean_fileid_150.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/DPRNN/100/clean_fileid_150.wav"></audio></td>
+            </tr>
+        </table>
+    </div>
+    <div class="file-section">
+        <h2>Test File 3, SNR: 2 dB, PESQ: 1.28</h2>
+        <table class='center-table' border="0">
+            <tr>
+                <th style="width: 210px;"></th>
+                <th>Noisy Input</th>
+                <th>Clean Target</th>
+                <th style="width: 210px;"></th>
+            </tr>
+            <tr>
+                <td style="width: 150px;"></td>
+                <td><img src=./DNS_audio/Noisy/clean_fileid_49.svg></img></td>
+
+                <td><img src=./DNS_audio/Target/clean_fileid_49.svg></img></td>
+                <td style="width: 150px;"></td>
+            </tr>
+            <tr>
+                <td style="width: 150px;"></td>
+                <td><audio controls src="./DNS_audio/Noisy/clean_fileid_49.wav"></audio></td>
+                <td><audio controls src="./DNS_audio/Target/clean_fileid_49.wav"></audio></td>
+                <td style="width: 150px;"></td>
+            </tr>
+        </table>
+        <table class="center-table" border="0">
+            <tr>
+                <th> </th>
+                <th>25%</th>
+                <th>50%</th>
+                <th>70%</th>
+                <th>100%</th>
+            </tr>
+            <tr>
+                <th>GRU</th>
+                <td> <img src=./DNS_audio/GRU/25/clean_fileid_49.svg></img></td>
+                <td> <img src=./DNS_audio/GRU/50/clean_fileid_49.svg></img></td>
+                <td> <img src=./DNS_audio/GRU/75/clean_fileid_49.svg></img></td>
+                <td> <img src=./DNS_audio/GRU/100/clean_fileid_49.svg></img></td>
+            </tr>
+            <tr>
+                <td> </td>
+                <td> <audio controls src="./DNS_audio/GRU/25/clean_fileid_49.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/GRU/50/clean_fileid_49.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/GRU/75/clean_fileid_49.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/GRU/100/clean_fileid_49.wav"></audio></td>
+            </tr>
+            <tr>
+                <th>MPT</th>
+                <td> <img src=./DNS_audio/MPT/25/clean_fileid_49.svg></img></td>
+                <td> <img src=./DNS_audio/MPT/50/clean_fileid_49.svg></img></td>
+                <td> <img src=./DNS_audio/MPT/75/clean_fileid_49.svg></img></td>
+                <td> <img src=./DNS_audio/MPT/100/clean_fileid_49.svg></img></td>
+            </tr>
+            <tr>
+                <td> </td>
+                <td> <audio controls src="./DNS_audio/MPT/25/clean_fileid_49.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/MPT/50/clean_fileid_49.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/MPT/75/clean_fileid_49.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/MPT/100/clean_fileid_49.wav"></audio></td>
+            </tr>
+            <tr>
+                <th>DPRNN</th>
+                <td> <img src=./DNS_audio/DPRNN/25/clean_fileid_49.svg></img></td>
+                <td> <img src=./DNS_audio/DPRNN/50/clean_fileid_49.svg></img></td>
+                <td> <img src=./DNS_audio/DPRNN/75/clean_fileid_49.svg></img></td>
+                <td> <img src=./DNS_audio/DPRNN/100/clean_fileid_49.svg></img></td>
+            </tr>
+            <tr>
+                <td> </td>
+                <td> <audio controls src="./DNS_audio/DPRNN/25/clean_fileid_49.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/DPRNN/50/clean_fileid_49.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/DPRNN/75/clean_fileid_49.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/DPRNN/100/clean_fileid_49.wav"></audio></td>
+            </tr>
+        </table>
+    </div>
+    <div class="file-section">
+        <h2>Test File 4, SNR: 4 dB, PESQ: 1.09</h2>
+        <table class='center-table' border="0">
+            <tr>
+                <th style="width: 210px;"></th>
+                <th>Noisy Input</th>
+                <th>Clean Target</th>
+                <th style="width: 210px;"></th>
+            </tr>
+            <tr>
+                <td style="width: 150px;"></td>
+                <td><img src=./DNS_audio/Noisy/clean_fileid_277.svg></img></td>
+
+                <td><img src=./DNS_audio/Target/clean_fileid_277.svg></img></td>
+                <td style="width: 150px;"></td>
+            </tr>
+            <tr>
+                <td style="width: 150px;"></td>
+                <td><audio controls src="./DNS_audio/Noisy/clean_fileid_277.wav"></audio></td>
+                <td><audio controls src="./DNS_audio/Target/clean_fileid_277.wav"></audio></td>
+                <td style="width: 150px;"></td>
+            </tr>
+        </table>
+        <table class="center-table" border="0">
+            <tr>
+                <th> </th>
+                <th>25%</th>
+                <th>50%</th>
+                <th>70%</th>
+                <th>100%</th>
+            </tr>
+            <tr>
+                <th>GRU</th>
+                <td> <img src=./DNS_audio/GRU/25/clean_fileid_277.svg></img></td>
+                <td> <img src=./DNS_audio/GRU/50/clean_fileid_277.svg></img></td>
+                <td> <img src=./DNS_audio/GRU/75/clean_fileid_277.svg></img></td>
+                <td> <img src=./DNS_audio/GRU/100/clean_fileid_277.svg></img></td>
+            </tr>
+            <tr>
+                <td> </td>
+                <td> <audio controls src="./DNS_audio/GRU/25/clean_fileid_277.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/GRU/50/clean_fileid_277.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/GRU/75/clean_fileid_277.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/GRU/100/clean_fileid_277.wav"></audio></td>
+            </tr>
+            <tr>
+                <th>MPT</th>
+                <td> <img src=./DNS_audio/MPT/25/clean_fileid_277.svg></img></td>
+                <td> <img src=./DNS_audio/MPT/50/clean_fileid_277.svg></img></td>
+                <td> <img src=./DNS_audio/MPT/75/clean_fileid_277.svg></img></td>
+                <td> <img src=./DNS_audio/MPT/100/clean_fileid_277.svg></img></td>
+            </tr>
+            <tr>
+                <td> </td>
+                <td> <audio controls src="./DNS_audio/MPT/25/clean_fileid_277.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/MPT/50/clean_fileid_277.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/MPT/75/clean_fileid_277.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/MPT/100/clean_fileid_277.wav"></audio></td>
+            </tr>
+            <tr>
+                <th>DPRNN</th>
+                <td> <img src=./DNS_audio/DPRNN/25/clean_fileid_277.svg></img></td>
+                <td> <img src=./DNS_audio/DPRNN/50/clean_fileid_277.svg></img></td>
+                <td> <img src=./DNS_audio/DPRNN/75/clean_fileid_277.svg></img></td>
+                <td> <img src=./DNS_audio/DPRNN/100/clean_fileid_277.svg></img></td>
+            </tr>
+            <tr>
+                <td> </td>
+                <td> <audio controls src="./DNS_audio/DPRNN/25/clean_fileid_277.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/DPRNN/50/clean_fileid_277.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/DPRNN/75/clean_fileid_277.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/DPRNN/100/clean_fileid_277.wav"></audio></td>
+            </tr>
+        </table>
+    </div>
+    <div class="file-section">
+        <h2>Test File 5, SNR: 4 dB, PESQ: 1.62</h2>
+        <table class='center-table' border="0">
+            <tr>
+                <th style="width: 210px;"></th>
+                <th>Noisy Input</th>
+                <th>Clean Target</th>
+                <th style="width: 210px;"></th>
+            </tr>
+            <tr>
+                <td style="width: 150px;"></td>
+                <td><img src=./DNS_audio/Noisy/clean_fileid_23.svg></img></td>
+
+                <td><img src=./DNS_audio/Target/clean_fileid_23.svg></img></td>
+                <td style="width: 150px;"></td>
+            </tr>
+            <tr>
+                <td style="width: 150px;"></td>
+                <td><audio controls src="./DNS_audio/Noisy/clean_fileid_23.wav"></audio></td>
+                <td><audio controls src="./DNS_audio/Target/clean_fileid_23.wav"></audio></td>
+                <td style="width: 150px;"></td>
+            </tr>
+        </table>
+        <table class="center-table" border="0">
+            <tr>
+                <th> </th>
+                <th>25%</th>
+                <th>50%</th>
+                <th>70%</th>
+                <th>100%</th>
+            </tr>
+            <tr>
+                <th>GRU</th>
+                <td> <img src=./DNS_audio/GRU/25/clean_fileid_23.svg></img></td>
+                <td> <img src=./DNS_audio/GRU/50/clean_fileid_23.svg></img></td>
+                <td> <img src=./DNS_audio/GRU/75/clean_fileid_23.svg></img></td>
+                <td> <img src=./DNS_audio/GRU/100/clean_fileid_23.svg></img></td>
+            </tr>
+            <tr>
+                <td> </td>
+                <td> <audio controls src="./DNS_audio/GRU/25/clean_fileid_23.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/GRU/50/clean_fileid_23.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/GRU/75/clean_fileid_23.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/GRU/100/clean_fileid_23.wav"></audio></td>
+            </tr>
+            <tr>
+                <th>MPT</th>
+                <td> <img src=./DNS_audio/MPT/25/clean_fileid_23.svg></img></td>
+                <td> <img src=./DNS_audio/MPT/50/clean_fileid_23.svg></img></td>
+                <td> <img src=./DNS_audio/MPT/75/clean_fileid_23.svg></img></td>
+                <td> <img src=./DNS_audio/MPT/100/clean_fileid_23.svg></img></td>
+            </tr>
+            <tr>
+                <td> </td>
+                <td> <audio controls src="./DNS_audio/MPT/25/clean_fileid_23.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/MPT/50/clean_fileid_23.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/MPT/75/clean_fileid_23.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/MPT/100/clean_fileid_23.wav"></audio></td>
+            </tr>
+            <tr>
+                <th>DPRNN</th>
+                <td> <img src=./DNS_audio/DPRNN/25/clean_fileid_23.svg></img></td>
+                <td> <img src=./DNS_audio/DPRNN/50/clean_fileid_23.svg></img></td>
+                <td> <img src=./DNS_audio/DPRNN/75/clean_fileid_23.svg></img></td>
+                <td> <img src=./DNS_audio/DPRNN/100/clean_fileid_23.svg></img></td>
+            </tr>
+            <tr>
+                <td> </td>
+                <td> <audio controls src="./DNS_audio/DPRNN/25/clean_fileid_23.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/DPRNN/50/clean_fileid_23.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/DPRNN/75/clean_fileid_23.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/DPRNN/100/clean_fileid_23.wav"></audio></td>
+            </tr>
+        </table>
+    </div>
+    <div class="file-section">
+        <h2>Test File 6, SNR: 10 dB, PESQ: 1.18</h2>
+        <table class='center-table' border="0">
+            <tr>
+                <th style="width: 210px;"></th>
+                <th>Noisy Input</th>
+                <th>Clean Target</th>
+                <th style="width: 210px;"></th>
+            </tr>
+            <tr>
+                <td style="width: 150px;"></td>
+                <td><img src=./DNS_audio/Noisy/clean_fileid_296.svg></img></td>
+
+                <td><img src=./DNS_audio/Target/clean_fileid_296.svg></img></td>
+                <td style="width: 150px;"></td>
+            </tr>
+            <tr>
+                <td style="width: 150px;"></td>
+                <td><audio controls src="./DNS_audio/Noisy/clean_fileid_296.wav"></audio></td>
+                <td><audio controls src="./DNS_audio/Target/clean_fileid_296.wav"></audio></td>
+                <td style="width: 150px;"></td>
+            </tr>
+        </table>
+        <table class="center-table" border="0">
+            <tr>
+                <th> </th>
+                <th>25%</th>
+                <th>50%</th>
+                <th>70%</th>
+                <th>100%</th>
+            </tr>
+            <tr>
+                <th>GRU</th>
+                <td> <img src=./DNS_audio/GRU/25/clean_fileid_296.svg></img></td>
+                <td> <img src=./DNS_audio/GRU/50/clean_fileid_296.svg></img></td>
+                <td> <img src=./DNS_audio/GRU/75/clean_fileid_296.svg></img></td>
+                <td> <img src=./DNS_audio/GRU/100/clean_fileid_296.svg></img></td>
+            </tr>
+            <tr>
+                <td> </td>
+                <td> <audio controls src="./DNS_audio/GRU/25/clean_fileid_296.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/GRU/50/clean_fileid_296.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/GRU/75/clean_fileid_296.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/GRU/100/clean_fileid_296.wav"></audio></td>
+            </tr>
+            <tr>
+                <th>MPT</th>
+                <td> <img src=./DNS_audio/MPT/25/clean_fileid_296.svg></img></td>
+                <td> <img src=./DNS_audio/MPT/50/clean_fileid_296.svg></img></td>
+                <td> <img src=./DNS_audio/MPT/75/clean_fileid_296.svg></img></td>
+                <td> <img src=./DNS_audio/MPT/100/clean_fileid_296.svg></img></td>
+            </tr>
+            <tr>
+                <td> </td>
+                <td> <audio controls src="./DNS_audio/MPT/25/clean_fileid_296.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/MPT/50/clean_fileid_296.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/MPT/75/clean_fileid_296.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/MPT/100/clean_fileid_296.wav"></audio></td>
+            </tr>
+            <tr>
+                <th>DPRNN</th>
+                <td> <img src=./DNS_audio/DPRNN/25/clean_fileid_296.svg></img></td>
+                <td> <img src=./DNS_audio/DPRNN/50/clean_fileid_296.svg></img></td>
+                <td> <img src=./DNS_audio/DPRNN/75/clean_fileid_296.svg></img></td>
+                <td> <img src=./DNS_audio/DPRNN/100/clean_fileid_296.svg></img></td>
+            </tr>
+            <tr>
+                <td> </td>
+                <td> <audio controls src="./DNS_audio/DPRNN/25/clean_fileid_296.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/DPRNN/50/clean_fileid_296.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/DPRNN/75/clean_fileid_296.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/DPRNN/100/clean_fileid_296.wav"></audio></td>
+            </tr>
+        </table>
+    </div>
+    <div class="file-section">
+        <h2>Test File 7, SNR: 12 dB, PESQ: 1.38</h2>
+        <table class='center-table' border="0">
+            <tr>
+                <th style="width: 210px;"></th>
+                <th>Noisy Input</th>
+                <th>Clean Target</th>
+                <th style="width: 210px;"></th>
+            </tr>
+            <tr>
+                <td style="width: 150px;"></td>
+                <td><img src=./DNS_audio/Noisy/clean_fileid_199.svg></img></td>
+
+                <td><img src=./DNS_audio/Target/clean_fileid_199.svg></img></td>
+                <td style="width: 150px;"></td>
+            </tr>
+            <tr>
+                <td style="width: 150px;"></td>
+                <td><audio controls src="./DNS_audio/Noisy/clean_fileid_199.wav"></audio></td>
+                <td><audio controls src="./DNS_audio/Target/clean_fileid_199.wav"></audio></td>
+                <td style="width: 150px;"></td>
+            </tr>
+        </table>
+        <table class="center-table" border="0">
+            <tr>
+                <th> </th>
+                <th>25%</th>
+                <th>50%</th>
+                <th>70%</th>
+                <th>100%</th>
+            </tr>
+            <tr>
+                <th>GRU</th>
+                <td> <img src=./DNS_audio/GRU/25/clean_fileid_199.svg></img></td>
+                <td> <img src=./DNS_audio/GRU/50/clean_fileid_199.svg></img></td>
+                <td> <img src=./DNS_audio/GRU/75/clean_fileid_199.svg></img></td>
+                <td> <img src=./DNS_audio/GRU/100/clean_fileid_199.svg></img></td>
+            </tr>
+            <tr>
+                <td> </td>
+                <td> <audio controls src="./DNS_audio/GRU/25/clean_fileid_199.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/GRU/50/clean_fileid_199.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/GRU/75/clean_fileid_199.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/GRU/100/clean_fileid_199.wav"></audio></td>
+            </tr>
+            <tr>
+                <th>MPT</th>
+                <td> <img src=./DNS_audio/MPT/25/clean_fileid_199.svg></img></td>
+                <td> <img src=./DNS_audio/MPT/50/clean_fileid_199.svg></img></td>
+                <td> <img src=./DNS_audio/MPT/75/clean_fileid_199.svg></img></td>
+                <td> <img src=./DNS_audio/MPT/100/clean_fileid_199.svg></img></td>
+            </tr>
+            <tr>
+                <td> </td>
+                <td> <audio controls src="./DNS_audio/MPT/25/clean_fileid_199.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/MPT/50/clean_fileid_199.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/MPT/75/clean_fileid_199.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/MPT/100/clean_fileid_199.wav"></audio></td>
+            </tr>
+            <tr>
+                <th>DPRNN</th>
+                <td> <img src=./DNS_audio/DPRNN/25/clean_fileid_199.svg></img></td>
+                <td> <img src=./DNS_audio/DPRNN/50/clean_fileid_199.svg></img></td>
+                <td> <img src=./DNS_audio/DPRNN/75/clean_fileid_199.svg></img></td>
+                <td> <img src=./DNS_audio/DPRNN/100/clean_fileid_199.svg></img></td>
+            </tr>
+            <tr>
+                <td> </td>
+                <td> <audio controls src="./DNS_audio/DPRNN/25/clean_fileid_199.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/DPRNN/50/clean_fileid_199.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/DPRNN/75/clean_fileid_199.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/DPRNN/100/clean_fileid_199.wav"></audio></td>
+            </tr>
+        </table>
+    </div>
+    <div class="file-section">
+        <h2>Test File 8, SNR: 12 dB, PESQ: 1.27</h2>
+        <table class='center-table' border="0">
+            <tr>
+                <th style="width: 210px;"></th>
+                <th>Noisy Input</th>
+                <th>Clean Target</th>
+                <th style="width: 210px;"></th>
+            </tr>
+            <tr>
+                <td style="width: 150px;"></td>
+                <td><img src=./DNS_audio/Noisy/clean_fileid_285.svg></img></td>
+
+                <td><img src=./DNS_audio/Target/clean_fileid_285.svg></img></td>
+                <td style="width: 150px;"></td>
+            </tr>
+            <tr>
+                <td style="width: 150px;"></td>
+                <td><audio controls src="./DNS_audio/Noisy/clean_fileid_285.wav"></audio></td>
+                <td><audio controls src="./DNS_audio/Target/clean_fileid_285.wav"></audio></td>
+                <td style="width: 150px;"></td>
+            </tr>
+        </table>
+        <table class="center-table" border="0">
+            <tr>
+                <th> </th>
+                <th>25%</th>
+                <th>50%</th>
+                <th>70%</th>
+                <th>100%</th>
+            </tr>
+            <tr>
+                <th>GRU</th>
+                <td> <img src=./DNS_audio/GRU/25/clean_fileid_285.svg></img></td>
+                <td> <img src=./DNS_audio/GRU/50/clean_fileid_285.svg></img></td>
+                <td> <img src=./DNS_audio/GRU/75/clean_fileid_285.svg></img></td>
+                <td> <img src=./DNS_audio/GRU/100/clean_fileid_285.svg></img></td>
+            </tr>
+            <tr>
+                <td> </td>
+                <td> <audio controls src="./DNS_audio/GRU/25/clean_fileid_285.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/GRU/50/clean_fileid_285.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/GRU/75/clean_fileid_285.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/GRU/100/clean_fileid_285.wav"></audio></td>
+            </tr>
+            <tr>
+                <th>MPT</th>
+                <td> <img src=./DNS_audio/MPT/25/clean_fileid_285.svg></img></td>
+                <td> <img src=./DNS_audio/MPT/50/clean_fileid_285.svg></img></td>
+                <td> <img src=./DNS_audio/MPT/75/clean_fileid_285.svg></img></td>
+                <td> <img src=./DNS_audio/MPT/100/clean_fileid_285.svg></img></td>
+            </tr>
+            <tr>
+                <td> </td>
+                <td> <audio controls src="./DNS_audio/MPT/25/clean_fileid_285.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/MPT/50/clean_fileid_285.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/MPT/75/clean_fileid_285.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/MPT/100/clean_fileid_285.wav"></audio></td>
+            </tr>
+            <tr>
+                <th>DPRNN</th>
+                <td> <img src=./DNS_audio/DPRNN/25/clean_fileid_285.svg></img></td>
+                <td> <img src=./DNS_audio/DPRNN/50/clean_fileid_285.svg></img></td>
+                <td> <img src=./DNS_audio/DPRNN/75/clean_fileid_285.svg></img></td>
+                <td> <img src=./DNS_audio/DPRNN/100/clean_fileid_285.svg></img></td>
+            </tr>
+            <tr>
+                <td> </td>
+                <td> <audio controls src="./DNS_audio/DPRNN/25/clean_fileid_285.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/DPRNN/50/clean_fileid_285.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/DPRNN/75/clean_fileid_285.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/DPRNN/100/clean_fileid_285.wav"></audio></td>
+            </tr>
+        </table>
+    </div>
+    <div class="file-section">
+        <h2>Test File 9, SNR: 18 dB, PESQ: 1.89</h2>
+        <table class='center-table' border="0">
+            <tr>
+                <th style="width: 210px;"></th>
+                <th>Noisy Input</th>
+                <th>Clean Target</th>
+                <th style="width: 210px;"></th>
+            </tr>
+            <tr>
+                <td style="width: 150px;"></td>
+                <td><img src=./DNS_audio/Noisy/clean_fileid_80.svg></img></td>
+
+                <td><img src=./DNS_audio/Target/clean_fileid_80.svg></img></td>
+                <td style="width: 150px;"></td>
+            </tr>
+            <tr>
+                <td style="width: 150px;"></td>
+                <td><audio controls src="./DNS_audio/Noisy/clean_fileid_80.wav"></audio></td>
+                <td><audio controls src="./DNS_audio/Target/clean_fileid_80.wav"></audio></td>
+                <td style="width: 150px;"></td>
+            </tr>
+        </table>
+        <table class="center-table" border="0">
+            <tr>
+                <th> </th>
+                <th>25%</th>
+                <th>50%</th>
+                <th>70%</th>
+                <th>100%</th>
+            </tr>
+            <tr>
+                <th>GRU</th>
+                <td> <img src=./DNS_audio/GRU/25/clean_fileid_80.svg></img></td>
+                <td> <img src=./DNS_audio/GRU/50/clean_fileid_80.svg></img></td>
+                <td> <img src=./DNS_audio/GRU/75/clean_fileid_80.svg></img></td>
+                <td> <img src=./DNS_audio/GRU/100/clean_fileid_80.svg></img></td>
+            </tr>
+            <tr>
+                <td> </td>
+                <td> <audio controls src="./DNS_audio/GRU/25/clean_fileid_80.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/GRU/50/clean_fileid_80.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/GRU/75/clean_fileid_80.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/GRU/100/clean_fileid_80.wav"></audio></td>
+            </tr>
+            <tr>
+                <th>MPT</th>
+                <td> <img src=./DNS_audio/MPT/25/clean_fileid_80.svg></img></td>
+                <td> <img src=./DNS_audio/MPT/50/clean_fileid_80.svg></img></td>
+                <td> <img src=./DNS_audio/MPT/75/clean_fileid_80.svg></img></td>
+                <td> <img src=./DNS_audio/MPT/100/clean_fileid_80.svg></img></td>
+            </tr>
+            <tr>
+                <td> </td>
+                <td> <audio controls src="./DNS_audio/MPT/25/clean_fileid_80.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/MPT/50/clean_fileid_80.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/MPT/75/clean_fileid_80.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/MPT/100/clean_fileid_80.wav"></audio></td>
+            </tr>
+            <tr>
+                <th>DPRNN</th>
+                <td> <img src=./DNS_audio/DPRNN/25/clean_fileid_80.svg></img></td>
+                <td> <img src=./DNS_audio/DPRNN/50/clean_fileid_80.svg></img></td>
+                <td> <img src=./DNS_audio/DPRNN/75/clean_fileid_80.svg></img></td>
+                <td> <img src=./DNS_audio/DPRNN/100/clean_fileid_80.svg></img></td>
+            </tr>
+            <tr>
+                <td> </td>
+                <td> <audio controls src="./DNS_audio/DPRNN/25/clean_fileid_80.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/DPRNN/50/clean_fileid_80.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/DPRNN/75/clean_fileid_80.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/DPRNN/100/clean_fileid_80.wav"></audio></td>
+            </tr>
+        </table>
+    </div>
+    <div class="file-section">
+        <h2>Test File 10, SNR: 19 dB, PESQ: 2.88</h2>
+        <table class='center-table' border="0">
+            <tr>
+                <th style="width: 210px;"></th>
+                <th>Noisy Input</th>
+                <th>Clean Target</th>
+                <th style="width: 210px;"></th>
+            </tr>
+            <tr>
+                <td style="width: 150px;"></td>
+                <td><img src=./DNS_audio/Noisy/clean_fileid_107.svg></img></td>
+
+                <td><img src=./DNS_audio/Target/clean_fileid_107.svg></img></td>
+                <td style="width: 150px;"></td>
+            </tr>
+            <tr>
+                <td style="width: 150px;"></td>
+                <td><audio controls src="./DNS_audio/Noisy/clean_fileid_107.wav"></audio></td>
+                <td><audio controls src="./DNS_audio/Target/clean_fileid_107.wav"></audio></td>
+                <td style="width: 150px;"></td>
+            </tr>
+        </table>
+        <table class="center-table" border="0">
+            <tr>
+                <th> </th>
+                <th>25%</th>
+                <th>50%</th>
+                <th>70%</th>
+                <th>100%</th>
+            </tr>
+            <tr>
+                <th>GRU</th>
+                <td> <img src=./DNS_audio/GRU/25/clean_fileid_107.svg></img></td>
+                <td> <img src=./DNS_audio/GRU/50/clean_fileid_107.svg></img></td>
+                <td> <img src=./DNS_audio/GRU/75/clean_fileid_107.svg></img></td>
+                <td> <img src=./DNS_audio/GRU/100/clean_fileid_107.svg></img></td>
+            </tr>
+            <tr>
+                <td> </td>
+                <td> <audio controls src="./DNS_audio/GRU/25/clean_fileid_107.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/GRU/50/clean_fileid_107.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/GRU/75/clean_fileid_107.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/GRU/100/clean_fileid_107.wav"></audio></td>
+            </tr>
+            <tr>
+                <th>MPT</th>
+                <td> <img src=./DNS_audio/MPT/25/clean_fileid_107.svg></img></td>
+                <td> <img src=./DNS_audio/MPT/50/clean_fileid_107.svg></img></td>
+                <td> <img src=./DNS_audio/MPT/75/clean_fileid_107.svg></img></td>
+                <td> <img src=./DNS_audio/MPT/100/clean_fileid_107.svg></img></td>
+            </tr>
+            <tr>
+                <td> </td>
+                <td> <audio controls src="./DNS_audio/MPT/25/clean_fileid_107.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/MPT/50/clean_fileid_107.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/MPT/75/clean_fileid_107.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/MPT/100/clean_fileid_107.wav"></audio></td>
+            </tr>
+            <tr>
+                <th>DPRNN</th>
+                <td> <img src=./DNS_audio/DPRNN/25/clean_fileid_107.svg></img></td>
+                <td> <img src=./DNS_audio/DPRNN/50/clean_fileid_107.svg></img></td>
+                <td> <img src=./DNS_audio/DPRNN/75/clean_fileid_107.svg></img></td>
+                <td> <img src=./DNS_audio/DPRNN/100/clean_fileid_107.svg></img></td>
+            </tr>
+            <tr>
+                <td> </td>
+                <td> <audio controls src="./DNS_audio/DPRNN/25/clean_fileid_107.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/DPRNN/50/clean_fileid_107.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/DPRNN/75/clean_fileid_107.wav"></audio></td>
+                <td> <audio controls src="./DNS_audio/DPRNN/100/clean_fileid_107.wav"></audio></td>
+            </tr>
+        </table>
+    </div>
+    <!-- </div> -->
+</body>
+
+</html>
