@@ -117,3 +117,28 @@ code {
     display: none;
 }
 
+figcaption {
+    font-size: 0.8em; /* Smaller font size */
+    color: #777; /* Lighter color */
+    margin-top: 8px; /* Space between the image and caption */
+    text-align: center; /* Center align the caption */
+    max-width: 800px; /* Match the max-width of the image */
+    margin-left: auto; /* Center align the caption */
+    margin-right: auto; /* Center align the caption */
+}
+
+.break-if-needed {
+    white-space: normal; /* Allows text to wrap naturally */
+    word-wrap: break-word; /* Breaks long words if necessary */
+    display: inline-block;
+}
+
+
+header h1 {
+    max-width: 700px; /* Set your desired maximum width */
+    margin: 0 auto; /* Center the h1 if needed */
+    text-align: center; /* Optional: Center the text */
+    word-wrap: break-word; /* Ensure long words break correctly */
+}
+
+

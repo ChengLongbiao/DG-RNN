@@ -16,27 +16,36 @@
         gtag('config', 'G-W5QEE96PKX');
     </script>
 
+    <!-- MathJax script -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
 </head>
 
 
 <body>
     <header>
-        <h1><strong>Dynamic Gated Recurrent Neural Network (DG-RNN)<br>for Compute-efficient Speech Enhancement</strong>
+        <h1>
+            <strong>Dynamic Gated Recurrent Neural Network for Compute-efficient Speech Enhancement</strong>
+
         </h1>
-        <p><strong>Longbiao Cheng<sup>1</sup>, Ashutosh Pandey<sup>2</sup>, Buye Xu<sup>2</sup>, Tobi
-                Delbruck<sup>1</sup>,Shih-Chii Liu<sup>1</sup></strong></p>
-        <p><sup>1</sup>Institute of Neuroinformatics, University of Zurich and ETH Zurich<br>
+        <p>
+            <strong>Longbiao Cheng<sup>1</sup>, Ashutosh Pandey<sup>2</sup>, Buye Xu<sup>2</sup>, Tobi Delbruck<sup>1</sup>, Shih-Chii Liu<sup>1</sup></strong></p>
+        <p>
+            <sup>1</sup>Institute of Neuroinformatics, University of Zurich and ETH Zurich<br>
             <sup>2</sup>Reality Labs Research, Meta
         </p>
+        
     </header>
 
     <nav>
         <ul>
-            <!-- <li><a href="#intro">Intro</a></li>
-            <li><a href="#DG-RNN">DG-RNN</a></li>
-            <li><a href="#D-GRU">D-GRU</a></li> -->
+            <li><a href="#intro">Intro</a></li>
+            <li><a href="#method">Methods</a></li>
             <li><a href="#demo">Demo</a></li>
-            <li><a href="#cite">Citation</a></li>
+            <li><a href="#cite">Cite</a></li>
+            <li><a href=https://arxiv.org/abs/2408.12425>Paper</a></li>
         </ul>
     </nav>
 
@@ -45,31 +54,67 @@
         <p>We propose DG-RNN to reduce RNN computes by selectively inhibiting neuron updates</p>
     </section> -->
 
-    <!-- <section id="intro">
+    <section id="intro">
         <h2>Introduction</h2>
-        <p>As showing below, when RNN processing natural signals such as speech, the activations of some neurons change
-            slowly over time.</p>
+        <p>As showing below, when Recurrent Neural Network (RNN) processing natural signals such as speech, the activations of some neurons change slowly over steps.</p>
+        
+        <!-- Figure element to group image and caption -->
+        <figure style="text-align: center;">
+            <img src="RNNactivations.png" alt="RNNactivations" style="max-width:350px; width: 100%; height:auto;">
+            <figcaption style="max-width:660px; width: 100%; height:auto; word-break: break-word;">
+                Activation patterns of neurons in a Gated Recurrent Unit (GRU) layer over time steps. The GRU layer is from a speech enhancement model. Each row represents a neuron, while columns show activations at different time steps.
+            </figcaption>
+        </figure>
 
-        <p>From this observation, we propose a new method that reduces the computes of conventional RNNs. </p>
+        <p>From this observation, we propose a new method that reduces the computes of conventional RNNs by <strong> updating only a selected subset of neurons at each step</strong>. </p>
     </section>
 
-    <section id="methods">
+    <section id="method">
+        <h2>Dynamic Gated RNN (DG-RNN)</h2>
+        <p> In conventional RNN models, every neuron in the hidden state is updated at each step. In contrast, DG-RNN introduces a novel component: <strong>a binary select gate \(\boldsymbol{g}_t\)</strong>. This gate dynamically determines which subset of neurons should be updated at each step \(t\). </p>
+        
+        <p> Neurons that are not selected by the select gate will skip their update process at that step, maintaining their values from the previous hidden state. This selective updating leads to a computation reduction.</p>
+        
+        <!-- Figure element to group image and caption -->
+        <figure style="text-align: center;">
+            <img src="DG_RNN.png" alt="DG-RNN" style="max-width:400px; width: 100%; height:auto;">
+            <figcaption style="max-width:660px; width: 100%; height:auto; word-break: break-word;">
+                Illustration of the update processes of (A) conventional RNN and (B) DG-RNN at step \(t\). 
+                <!-- (A) For conventional RNN, all neurons in the hidden state are updated at each step. (B) DG-RNN first identifies which neurons need updating, as indicated by a <strong> 1 </strong> in the proposed select gate $ \boldsymbol{g}_t $. When a neuron is marked with <strong> 1 </strong>, it undergoes the RNN update process. Those marked with <strong> 0 </strong> retain their values from the previous hidden state. -->
+            </figcaption>
+        </figure>
+
         <h2>Dynamic GRU (D-GRU)</h2>
-        <p>DG-RNN incorporates a new binary select gate to RNN for determining the dynamic set of neurons to be updated
-            at each step. Neurons that are not selected will skip their update process at that step, resulting in
-            computation reduction.</p>
-        <p>GRU hidden state update equation at step <em>t</em>:</p>
-        <pre><code>
-        Reset gate: r<sub>t</sub> = σ(W<sub>ir</sub>x<sub>t</sub> + b<sub>ir</sub> + W<sub>hr</sub>h<sub>t-1</sub> + b<sub>hr</sub>)
-        Candidate state: c<sub>t</sub> = tanh(W<sub>ic</sub>x<sub>t</sub> + b<sub>ic</sub> + r<sub>t</sub> * W<sub>hc</sub>h<sub>t-1</sub> + b<sub>hc</sub>)
-        Update gate: z<sub>t</sub> = σ(W<sub>iz</sub>x<sub>t</sub> + b<sub>iz</sub> + W<sub>hz</sub>h<sub>t-1</sub> + b<sub>hz</sub>)
-        State update: h<sub>t</sub> = z<sub>t</sub> * c<sub>t</sub> + (1 - z<sub>t</sub>) * h<sub>t-1</sub>
-        </code></pre>
-    </section> -->
+        <p>When applying DG-RNN to GRU, no extra parameters are needed. </p>
+        <p>GRU hidden state update equation at step \(t\):
+        \[\begin{align}
+        \color{blue}{\text{Reset Gate:} } \boldsymbol{r}_t &= \sigma(\mathbf{W}_{ir}\boldsymbol{x}_t + \boldsymbol{b}_{ir} + \mathbf{W}_{hr}\boldsymbol{h}_{t-1} + \boldsymbol{b}_{hr}) \\
+        \color{blue}{\text{Candidate State: }} \boldsymbol{c}_t &= \tanh(\mathbf{W}_{ic}\boldsymbol{x}_t + \boldsymbol{b}_{ic} + \boldsymbol{r}_t \ast (\mathbf{W}_{hc}\boldsymbol{h}_{t-1} + \boldsymbol{b}_{hc})) \\
+        \color{green}{\text{Update Gate: }} \boldsymbol{z}_t &= \sigma(\mathbf{W}_{iz}\boldsymbol{x}_t + \boldsymbol{b}_{iz} + \mathbf{W}_{hz}\boldsymbol{h}_{t-1} + \boldsymbol{b}_{hz}) \label{eq:gru_z} \\
+        \text{State Update: }\boldsymbol{h}_t &= \boldsymbol{z}_t \ast \boldsymbol{c}_t + (1 - \boldsymbol{z}_t) \ast \boldsymbol{h}_{t-1} \label{eq:gru_h}
+        \end{align}\]
+        For a neuron \(j\), when \(z^j_t\) is close to 1, the hidden state \(h^j_t\) is largely replaced by the candidate hidden state \(c^j_t\). Conversely, \(z^j_t\) close to 0 means that \(h^j_{t}\) is close to \(h^j_{t-1}\).
+        </p>
+
+        <p>In proposed D-GRU, we only update neurons with the top-\(A\) largest values in the <span style="color: green;">update gate \(\boldsymbol{z}_t\)</span>. For neurons are not selected, the computation of <span style="color: blue;">reset gate \( r_t^j \)</span> and <span style="color: blue;">candidate state \( c_t^j \)</span> can be skipped.
+        </p>
+
+        <p>
+        Since the computation for the update gate \(\boldsymbol{z}\) cannot be saved, the total computation of the D-GRU is \((1+2\mathcal{P})/3\) of that in the conventional GRU. Here, \(\mathcal{P}\) is the ratio of selected neurons.
+        </p>
+
+        
+
+        
+    </section>
 
     <section id="demo">
         <h2>Demo</h2>
-        <p>Audio samples for comparing D-GRU and conventional GRU based SE networks (scroll down for more files):</p>
+        <p>Audio examples comparing speech enhancement performance of D-GRU based networks (with \(\mathcal{P} \in [25\%, 50\%, 75\%]\)) and conventional GRU based networks (\(\mathcal{P} = 100\%\)).</p>
+        
+        <p>
+            Scroll down for more samples. Zoom in to see the spectrogram details.
+        </p>
         <div class="iframe-container">
             <!-- <iframe src="demo.html" frameborder="0"></iframe> -->
             <iframe src="demo.html" style="width: 100%; height: 1500px; border: none; overflow-x: hidden;"></iframe>
@@ -80,7 +125,7 @@
 
 
     <section id="cite">
-        <h2>Citation</h2>
+        <h2>Cite</h2>
         <p>@inproceedings{cheng2024dynamic,<br>
             title={Dynamic Gated Recurrent Neural Network for Compute-efficient Speech Enhancement},<br>
             author={Cheng, Longbiao and Pandey, Ashutosh and Xu, Buye and Delbruck, Tobi and Liu, Shih-Chii},<br>
