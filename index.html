@@ -94,7 +94,7 @@
         <p>When applying DG-RNN to GRU, no extra parameters are needed. </p>
         <p>GRU hidden state update equation at step \(t\):
         \[\begin{align}
-        \color{blue}{\text{Reset Gate:} } \boldsymbol{r}_t &= \sigma(\mathbf{W}_{ir}\boldsymbol{x}_t + \boldsymbol{b}_{ir} + \mathbf{W}_{hr}\boldsymbol{h}_{t-1} + \boldsymbol{b}_{hr}) \\
+        \color{blue}{\text{Reset Gate: }} \boldsymbol{r}_t &= \sigma(\mathbf{W}_{ir}\boldsymbol{x}_t + \boldsymbol{b}_{ir} + \mathbf{W}_{hr}\boldsymbol{h}_{t-1} + \boldsymbol{b}_{hr}) \\
         \color{blue}{\text{Candidate State: }} \boldsymbol{c}_t &= \tanh(\mathbf{W}_{ic}\boldsymbol{x}_t + \boldsymbol{b}_{ic} + \boldsymbol{r}_t \ast (\mathbf{W}_{hc}\boldsymbol{h}_{t-1} + \boldsymbol{b}_{hc})) \\
         \color{green}{\text{Update Gate: }} \boldsymbol{z}_t &= \sigma(\mathbf{W}_{iz}\boldsymbol{x}_t + \boldsymbol{b}_{iz} + \mathbf{W}_{hz}\boldsymbol{h}_{t-1} + \boldsymbol{b}_{hz}) \label{eq:gru_z} \\
         \text{State Update: }\boldsymbol{h}_t &= \boldsymbol{z}_t \ast \boldsymbol{c}_t + (1 - \boldsymbol{z}_t) \ast \boldsymbol{h}_{t-1} \label{eq:gru_h}
